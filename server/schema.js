@@ -17,23 +17,21 @@ const typeDefs = gql`
 
   type Query {
     books: [Book]
+    book(id: ID!): Book
     authors: [Author]
+    author(id: ID!): Author
   }
 
-  type Mutations {
-    addBook(
-      title: String!
-      genre: String
-      author_id: Int!
-    ): BooksMutationResponse
-    addAuthor(name: String!, age: Int): Book
+  type Mutation {
+    addBook(title: String!, genre: String, author_id: Int!): Book
+    addAuthor(name: String!, age: Int): GenMutationResponse
   }
 
-  type BooksMutationResponse implements MutationResponses {
+  type GenMutationResponse implements MutationResponses {
     code: String!
     success: Boolean!
     message: String!
-    user: Book
+    result: Author
   }
 
   interface MutationResponses {
@@ -43,4 +41,4 @@ const typeDefs = gql`
   }
 `;
 
-module.exports = typeDefs ;
+module.exports = typeDefs;
