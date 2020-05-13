@@ -22,8 +22,10 @@ const typeDefs = gql`
     author(id: ID!): Author
   }
 
+  union Result = Book | Author
+
   type Mutation {
-    addBook(title: String!, genre: String, author_id: Int!): Book
+    addBook(title: String!, genre: String, author_id: Int!): GenMutationResponse
     addAuthor(name: String!, age: Int): GenMutationResponse
   }
 
@@ -31,7 +33,7 @@ const typeDefs = gql`
     code: String!
     success: Boolean!
     message: String!
-    result: Author
+    result: Result
   }
 
   interface MutationResponses {

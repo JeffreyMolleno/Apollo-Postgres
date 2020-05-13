@@ -31,11 +31,16 @@ const resolvers = {
   },
   Mutation: {
     async addBook(parent, args, context, info) {
-      return await context.db.books.insert({
+      const res = context.db.books.insert({
         title: args.title,
         genre: args.genre,
         author_id: args.author_id,
       });
+
+      return {
+        message: "Succesful",
+        result: res,
+      };
     },
     async addAuthor(parent, args, context, info) {
       const res = await context.db.authors.insert({
@@ -45,8 +50,23 @@ const resolvers = {
 
       return {
         message: "success",
-        result: { ...res },
+        result: res,
       };
+    },
+  },
+  Result: {
+    __resolveType(obj, context, info) {
+      if (obj.name) {
+        return "Author";
+      }
+      if (obj.title) {
+        return "Book";
+      }
+    },
+  },
+  MutationResponses: {
+    __resolveType(obj, context, info) {
+      return null;
     },
   },
 };
